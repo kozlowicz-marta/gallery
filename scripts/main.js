@@ -11,16 +11,12 @@ function renderPhoto(url) {
 
     const $main = document.querySelector('main');
     $main.appendChild($photo); //main.append(photo)
+
+
 }
 
-function displayPhotos() {
+function displayPhotos(photos) {
     console.log('displayPhotos()');
-
-    const photos = [
-        'https://picsum.photos/300/150',
-        'https://picsum.photos/300/150',
-        'https://picsum.photos/300/150',
-    ];
 
     // console.log(photos);   //zmienilismy to na: renderPhoto(photos[i]);
     // renderPhoto(photos[0]);
@@ -40,9 +36,38 @@ function displayPhotos() {
 
 }
 
+function dispayMessage(text, cssClass) {
+
+    const $text = document.createElement('p');
+    // $text.innerHTML = ''; //wspiera html 
+    // $text.innerText = ''; //parsuje html zeby go zigrorowac
+    $text.textContent = text; // najszybsze rozwiazanie
+    $text.classList.add('alert', cssClass);
+
+    const $main = document.querySelector('main');
+    $main.appendChild($text);
+}
+
 function main() {
     console.log('main()');
-    displayPhotos();
+    //displayPhotos();
+    //dispayMessage();
+
+    const photos = [
+        'https://picsum.photos/300/150',
+        'https://picsum.photos/300/150',
+        'https://picsum.photos/300/150',
+    ];
+
+    if (photos.length > 0) {
+        displayPhotos(photos);
+    } else {
+        dispayMessage('Nie ma zdjęć w galerii', 'alert-danger')
+    }
+
+    setTimeout(function () {
+        // dispayMessage('Nie ma zdjęć w galerii', 'alert-danger')
+    }, 2 * 1000);
 }
 
 // main(); // wywolanie funkcji
