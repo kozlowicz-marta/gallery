@@ -1,4 +1,1 @@
-# galeria
-# galeria
-# galeria
 # gallery
