@@ -1,76 +1,43 @@
-// console.log('plik załadowanyl')
+const photoUrls = 'https://fakes.herokuapp.com/users';
 
-const title = 'Galeria zdjęć'
-console.log(title);
-
-function renderPhoto(url) {
-    console.log('renderPhoto', url);
-
-    const $photo = document.createElement('img');
-    $photo.src = url;
-
+function renderPhoto(photo) {
+    const $img = document.createElement('img');
+    $img.src = photo.avatarUrl;
+    // $img.alt = photo.name;
     const $main = document.querySelector('main');
-    $main.appendChild($photo); //main.append(photo)
-
-
+    $main.appendChild($img);
 }
 
-function displayPhotos(photos) {
-    console.log('displayPhotos()');
-
-    // console.log(photos);   //zmienilismy to na: renderPhoto(photos[i]);
-    // renderPhoto(photos[0]);
-    // renderPhoto(photos[1]);
-    // renderPhoto(photos[2]);
-
-    // for (let i = 0; i < photos.length; i++) {
-    //     console.log(i);
-    //     renderPhoto(photos[i]);
-    // }
-
-    // photos.forEach(function (photo) {
-    //     renderPhoto(photo);
-    // }) nizej skrocony zapis forEach (3 angumenty:Element, INDEX, KOLEKCJA)
-
-    photos.forEach(renderPhoto);
-
-}
-
-function dispayMessage(text, cssClass) {
-
-    const $text = document.createElement('p');
-    // $text.innerHTML = ''; //wspiera html 
-    // $text.innerText = ''; //parsuje html zeby go zigrorowac
-    $text.textContent = text; // najszybsze rozwiazanie
-    $text.classList.add('alert', cssClass);
-
+function displayMessage(text) {
+    const $message = document.createElement('p');
+    $message.textContent = text;
     const $main = document.querySelector('main');
-    $main.appendChild($text);
+    $main.appendChild($message);
 }
 
-function main() {
-    console.log('main()');
-    //displayPhotos();
-    //dispayMessage();
+async function main() {
 
-    const photos = [
-        'https://picsum.photos/300/150',
-        'https://picsum.photos/300/150',
-        'https://picsum.photos/300/150',
-    ];
+    loader.show();
 
-    if (photos.length > 0) {
-        displayPhotos(photos);
-    } else {
-        dispayMessage('Nie ma zdjęć w galerii', 'alert-danger')
-    }
+    const photos1 = await makeRequest(photoUrls);
+    const photos2 = await makeRequest(photoUrls);
+    const photos3 = await makeRequest(photoUrls);
 
-    setTimeout(function () {
-        // dispayMessage('Nie ma zdjęć w galerii', 'alert-danger')
-    }, 2 * 1000);
+    let photos = [].concat(photos1, photos2, photos3);
+
+    console.log(photos);
+
+    loader.hide();
+
+    // for (let photo of photos) {
+    //     renderPhoto(photo.avatarUrl);
+    // } nizej to samo jest 
+
+    photos.forEach(function (photo) {
+        renderPhoto(photo);
+    })
+
+    displayMessage('My little pony');
 }
 
-// main(); // wywolanie funkcji
-
-window.addEventListener('DOMContentLoaded', main //referencja do funkcji //
-);
+main();
