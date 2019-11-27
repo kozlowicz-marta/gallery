@@ -11,3 +11,5 @@ const loader = {
         $loader.remove();
     }
 };
+
+module.exports = loader;

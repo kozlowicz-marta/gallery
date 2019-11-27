@@ -1,9 +1,11 @@
-const photoUrls = 'https://fakes.herokuapp.com/users';
+const loader = require('./loader');
+const makeRequest = require('./request');
 
-function renderPhoto(photo) {
+const photoUrls = 'data/photos.json';
+
+function renderPhoto(url) {
     const $img = document.createElement('img');
-    $img.src = photo.avatarUrl;
-    // $img.alt = photo.name;
+    $img.src = url;
     const $main = document.querySelector('main');
     $main.appendChild($img);
 }
@@ -15,6 +17,7 @@ function displayMessage(text) {
     $main.appendChild($message);
 }
 
+
 async function main() {
 
     loader.show();
@@ -24,7 +27,6 @@ async function main() {
     const photos3 = await makeRequest(photoUrls);
 
     let photos = [].concat(photos1, photos2, photos3);
-
     console.log(photos);
 
     loader.hide();
@@ -34,7 +36,7 @@ async function main() {
     // } nizej to samo jest 
 
     photos.forEach(function (photo) {
-        renderPhoto(photo);
+        renderPhoto(photo.imageUrl);
     })
 
     displayMessage('My little pony');
