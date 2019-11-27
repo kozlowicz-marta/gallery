@@ -1,5 +1,7 @@
 const loader = require('./loader');
 const makeRequest = require('./request');
+//const storage = require('./storage');
+const cookies = require('./cookies');
 
 const photoUrls = 'data/photos.json';
 
@@ -20,17 +22,22 @@ function displayMessage(text) {
 
 async function main() {
 
-    loader.show();
+    let photos = cookies.read('fotki');
 
-    const photos1 = await makeRequest(photoUrls);
-    const photos2 = await makeRequest(photoUrls);
-    const photos3 = await makeRequest(photoUrls);
+    if (!photos) {
+        loader.show()
 
-    let photos = [].concat(photos1, photos2, photos3);
-    console.log(photos);
+        const photos1 = await makeRequest(photoUrls);
+        const photos2 = await makeRequest(photoUrls);
+        const photos3 = await makeRequest(photoUrls);
 
-    loader.hide();
+        photos = [].concat(photos1, photos2, photos3);
+        console.log(photos);
 
+        cookies.save('fotki', photos);
+
+        loader.hide();
+    }
     // for (let photo of photos) {
     //     renderPhoto(photo.avatarUrl);
     // } nizej to samo jest 
